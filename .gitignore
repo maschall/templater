@@ -1,0 +1,10 @@
+.DS_Store
+.bundle/
+bin/*
+!bin/templater
+vendor/gems
+pkg/
+
+# Sub-repositories for release
+gh-pages
+homebrew-formulae

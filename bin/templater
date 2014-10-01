@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+#
+# This is a stub of the templater executable for development purposes.
+# The actual executable is located at src/templater
+
+
+$LOAD_PATH.unshift(File.expand_path('../../lib', __FILE__))
+require 'templater'
+
+Templater::CLI.new(ARGV).run
