@@ -15,13 +15,16 @@ module Templater
         global_options.parse!(@argv)
       rescue OptionParser::InvalidOption => e
         puts e
-        global_options.parse!(['-h'])
+        print_help
       end
+      
+      template_path = get_template_path
+      puts "Processing Template #{template_path}:"
     end
     
     def global_options
       OptionParser.new do |opts|
-        opts.banner = 'Usage: templater [-v | --version] [-h | --help]'
+        opts.banner = 'Usage: templater <template url> [-v | --version] [-h | --help]'
         
         opts.on('-v', '--version', 'Display the version and exit') do
           puts "Version: #{VERSION}"
@@ -33,8 +36,22 @@ module Templater
           exit
         end
         
-        
       end
+    end
+    
+    def print_help
+      global_options.parse!(['-h'])
+    end
+    
+    def get_template_path
+      path = @argv.pop
+      
+      if not path or path.empty?
+        puts "Need to specify a template to process"
+        print_help
+      end
+      
+      path
     end
   end
 end
