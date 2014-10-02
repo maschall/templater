@@ -19,7 +19,11 @@ module Templater
       end
       
       template_path = get_template_path
-      puts "Processing Template #{template_path}:"
+      
+      directory = @argv.shift ||= Dir.getwd
+      directory = Pathname.new(directory).expand_path
+      
+      Template.new(template_path).process(directory)
     end
     
     def global_options
@@ -44,7 +48,7 @@ module Templater
     end
     
     def get_template_path
-      path = @argv.pop
+      path = @argv.shift
       
       if not path or path.empty?
         puts "Need to specify a template to process"
