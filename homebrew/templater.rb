@@ -1,6 +1,6 @@
 require 'formula'
 
-class Cookbook < Formula
+class Templater < Formula
   homepage 'https://github.com/maschall/templater'
   url 'https://maschall.github.io/templater/Templater-__VERSION__.tar.gz'
   sha1 '__SHA__'
