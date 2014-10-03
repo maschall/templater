@@ -13,4 +13,5 @@ require 'git'
 # self
 require 'templater/cli'
 require 'templater/template'
+require 'templater/template_config'
 require 'templater/version'
