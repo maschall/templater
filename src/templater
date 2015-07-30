@@ -11,4 +11,4 @@ $LOAD_PATH.unshift(File.expand_path('../../rubylib', file_path))
 
 require 'templater'
 
-Templater::CLI.new(ARGV).run
+Templater::CLI.start(ARGV)

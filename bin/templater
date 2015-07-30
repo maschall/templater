@@ -7,4 +7,4 @@
 $LOAD_PATH.unshift(File.expand_path('../../lib', __FILE__))
 require 'templater'
 
-Templater::CLI.start
+Templater::CLI.start(ARGV)
