@@ -15,16 +15,23 @@ module Templater
 
     desc "clone [TEMPLATE] [DESTINATION?]", "Clones template to destination or current directory"
     def clone(template, destination=nil)
-      directory = destination ||= Dir.getwd
-      directory = Pathname.new(directory).expand_path
+      directory = get_directory_path(destination)
       Template.process(template, directory)
     end
     
-    desc "create [DIRECTORY]", "create a new template from the directory or current directory"
-    def create(directory=nil)
-      
+    desc "create [SOURCE]", "create a new template from the source or current directory"
+    def create(source=nil)
+      directory = get_directory_path(source)
+      Template.create(directory)
     end
     
     default_task :cli
+    
+    private
+    
+    def get_directory_path(directory=nil)
+      directory = directory ||= Dir.getwd
+      directory = Pathname.new(directory).expand_path
+    end
   end
 end

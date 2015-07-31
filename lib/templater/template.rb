@@ -2,21 +2,21 @@ module Templater
   class Template
     def self.process(template_url, output_directory)
       TemplateFetcher.pull_down_template(template_url) do |template_directory|
-        config = TemplateConfig.config_in_directory(template_directory)
-        self.prompt_for_config_values(config)
+        config = TemplateConfig.load_config_in_directory(template_directory)
+        if !config
+          puts "Template file not found in template"
+          exit
+        end
+        config = config.prompt_for_values
         self.output_to_directory(config, template_directory, output_directory)
       end
     end
     
-    private
-    
-    def self.prompt_for_config_values(config)
-      config.hash.each_pair do |attribute, default_value|
-        puts "#{attribute} (#{default_value}): "
-        value = STDIN.gets.chomp
-        config.hash[attribute] = value.empty? ? default_value : value
-      end
+    def self.create(source_directory)
+      config = TemplateConfig.create_config_in_directory(source_directory)
     end
+    
+    private
     
     def self.output_to_directory(config, temp_directory, output_directory)
       Dir.glob(File.join(temp_directory, "**", "*"), File::FNM_DOTMATCH) do |file_name|
