@@ -23,14 +23,18 @@ module Templater
       Dir.glob(File.join(source_directory, "**", "*"), File::FNM_DOTMATCH) do |file_name|
         if not File.directory?(file_name)
           relative_file_name = Pathname.new(file_name).relative_path_from(Pathname.new(source_directory)).to_path
-          if not TemplateConfig.template_file_names.include?(relative_file_name)
-            new_file_path = process_file_name(template_attribute, relative_file_name, source_directory)
-            file = File.new(file_name)
-            new_file_contents = process_file_contents(template_attribute, file.read)
-            #TODO handle directory name change
-            replace_file_with_new_content(file, new_file_path, new_file_contents)
-          end
+          file = File.new(file_name)
+          process_file(template_attribute, file, relative_file_name, source_directory)
         end
+      end
+    end
+    
+    def process_file(template_attribute, file, relative_file_name, source_directory)
+      if not TemplateConfig.template_file_names.include?(relative_file_name)
+        new_file_path = process_file_name(template_attribute, relative_file_name, source_directory)
+        new_file_contents = process_file_contents(template_attribute, file.read)
+        #TODO handle directory name change
+        replace_file_with_new_content(file, new_file_path, new_file_contents)
       end
     end
     
