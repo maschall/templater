@@ -19,23 +19,26 @@ module Templater
       config = self.load_config_in_directory(template_directory)
       if !config
         config = TemplateConfig.new()
-        config.save("#{template_directory}/#{self.template_file_names.first}")
+        config.save(template_directory)
       end
-      config
+      return config
     end
     
     def prompt_for_values
-      config = TemplateConfig.new()
       hash.each_pair do |attribute, default_value|
         puts "#{attribute} (#{default_value}): "
         value = STDIN.gets.chomp
-        config.hash[attribute] = value.empty? ? default_value : value
+        hash[attribute] = value.empty? ? default_value : value
       end
-      config
     end
     
-    def save(config_path)
-      File.open(config_path, 'w') {|file| file.write @hash.to_yaml }
+    def add_attribute(template_attribute)
+      hash[template_attribute.attribute] = template_attribute.default_value
+    end
+    
+    def save(template_directory)
+      config_path = "#{template_directory}/#{TemplateConfig.template_file_names.first}"
+      File.open(config_path, 'w') {|file| file.write(@hash.to_yaml) }
     end
     
     attr_accessor :hash

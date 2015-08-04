@@ -16,13 +16,13 @@ module Templater
     desc "clone [TEMPLATE] [DESTINATION?]", "Clones template to destination or current directory"
     def clone(template, destination=nil)
       directory = get_directory_path(destination)
-      Template.process(template, directory)
+      TemplateProcessor.process(template, directory)
     end
     
     desc "create [SOURCE]", "create a new template from the source or current directory"
     def create(source=nil)
       directory = get_directory_path(source)
-      Template.create(directory)
+      TemplateCreator.create(directory)
     end
     
     default_task :cli
